@@ -3,8 +3,6 @@ import PublicBoard from './pages/PublicBoard'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import AnnouncementEditor from './pages/AnnouncementEditor'
-import Subscribers from './pages/Subscribers'
-import Unsubscribe from './pages/Unsubscribe'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminLayout from './components/AdminLayout'
 
@@ -13,8 +11,6 @@ export default function App() {
     <Routes>
       <Route path="/" element={<PublicBoard />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/unsubscribe" element={<Unsubscribe />} />
-
       <Route
         path="/admin"
         element={
@@ -26,7 +22,6 @@ export default function App() {
         <Route index element={<Dashboard />} />
         <Route path="new" element={<AnnouncementEditor />} />
         <Route path="edit/:id" element={<AnnouncementEditor />} />
-        <Route path="subscribers" element={<Subscribers />} />
       </Route>
     </Routes>
   )

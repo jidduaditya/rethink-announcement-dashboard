@@ -13,6 +13,7 @@ serve(async (req) => {
 
   try {
     const { announcement_id } = await req.json()
+    console.log('Received announcement_id:', announcement_id)
 
     if (!announcement_id) {
       return new Response(
@@ -21,11 +22,26 @@ serve(async (req) => {
       )
     }
 
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')!
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+    const resendApiKey = Deno.env.get('RESEND_API_KEY')
     const appUrl = Deno.env.get('APP_URL') || 'http://localhost:5173'
     const fromEmail = Deno.env.get('FROM_EMAIL') || 'announcements@yourdomain.com'
+
+    console.log('Env check:', {
+      hasSupabaseUrl: !!supabaseUrl,
+      hasServiceKey: !!supabaseServiceKey,
+      hasResendKey: !!resendApiKey,
+      appUrl,
+      fromEmail,
+    })
+
+    if (!supabaseUrl || !supabaseServiceKey || !resendApiKey) {
+      return new Response(
+        JSON.stringify({ error: 'Missing required environment variables' }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
@@ -130,8 +146,10 @@ serve(async (req) => {
         body: JSON.stringify(emails),
       })
 
+      console.log('Resend response status:', res.status)
       if (!res.ok) {
         const errBody = await res.text()
+        console.error('Resend error:', errBody)
         throw new Error(`Resend API error ${res.status}: ${errBody}`)
       }
 
@@ -149,6 +167,7 @@ serve(async (req) => {
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (err) {
+    console.error('Function error:', err)
     return new Response(
       JSON.stringify({ error: err instanceof Error ? err.message : 'Internal error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

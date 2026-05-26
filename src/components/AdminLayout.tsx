@@ -22,10 +22,10 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-bg">
       {/* Top nav */}
-      <header className="fixed top-0 left-0 right-0 h-12 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border z-50 flex items-center justify-between px-6">
+      <header className="fixed top-0 left-0 right-0 h-24 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border z-50 flex items-center justify-between px-6">
         {/* Left: wordmark + nav links */}
         <div className="flex items-center">
-          <span className="text-xs font-semibold text-ink mr-6">
+          <span className="text-2xl font-semibold text-ink mr-6">
             rethink announcements board
           </span>
 
@@ -34,7 +34,7 @@ export default function AdminLayout() {
               to="/admin"
               end
               className={({ isActive }) =>
-                `text-xs px-3 h-12 flex items-center transition-all ${
+                `text-lg px-3 h-24 flex items-center transition-all ${
                   isActive ? 'opacity-100 font-semibold text-accent' : 'text-ink opacity-56 hover:opacity-100'
                 }`
               }
@@ -42,29 +42,18 @@ export default function AdminLayout() {
               Announcements
             </NavLink>
 
-            <NavLink
-              to="/admin/subscribers"
-              className={({ isActive }) =>
-                `text-xs px-3 h-12 flex items-center transition-all ${
-                  isActive ? 'opacity-100 font-semibold text-accent' : 'text-ink opacity-56 hover:opacity-100'
-                }`
-              }
-            >
-              Subscribers
-            </NavLink>
-
             <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-ink opacity-56 hover:opacity-100 px-3 h-12 flex items-center transition-all"
+              className="text-lg text-ink opacity-56 hover:opacity-100 px-3 h-24 flex items-center transition-all"
             >
               View Board
             </a>
 
             <button
               onClick={handleLogout}
-              className="text-xs text-ink opacity-56 hover:opacity-100 px-3 h-12 flex items-center transition-all"
+              className="text-lg text-ink opacity-56 hover:opacity-100 px-3 h-24 flex items-center transition-all"
             >
               Sign out
             </button>
@@ -78,7 +67,7 @@ export default function AdminLayout() {
       </header>
 
       {/* Main content */}
-      <main className="max-w-[980px] mx-auto px-12 pt-16 pb-12">
+      <main className="max-w-[980px] mx-auto px-12 pt-28 pb-12">
         <Outlet />
       </main>
     </div>

@@ -90,6 +90,12 @@ CREATE POLICY "Public can subscribe"
   TO anon
   WITH CHECK (true);
 
+-- Subscribers: authenticated can insert
+CREATE POLICY "Admins can add subscribers"
+  ON subscribers FOR INSERT
+  TO authenticated
+  WITH CHECK (true);
+
 -- Subscribers: authenticated can read all
 CREATE POLICY "Admins can read subscribers"
   ON subscribers FOR SELECT

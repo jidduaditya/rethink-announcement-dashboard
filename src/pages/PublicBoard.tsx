@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { fetchPublishedAnnouncements } from '../lib/queries/announcements'
 import AnnouncementCard from '../components/AnnouncementCard'
 import CategoryFilter from '../components/CategoryFilter'
-import SubscribeBox from '../components/SubscribeBox'
 import EmptyState from '../components/EmptyState'
 import type { Category } from '../lib/types'
 
@@ -26,16 +25,16 @@ export default function PublicBoard() {
   return (
     <div className="min-h-screen bg-bg">
       {/* Top Nav */}
-      <header className="fixed top-0 w-full z-50 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border h-12">
-        <div className="flex justify-between items-center px-4 md:px-6 h-12 max-w-[980px] mx-auto">
-          <span className="font-semibold text-base text-ink tracking-tight">
+      <header className="fixed top-0 w-full z-50 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border h-24">
+        <div className="flex justify-between items-center px-4 md:px-6 h-24 max-w-[980px] mx-auto">
+          <span className="font-semibold text-2xl text-ink tracking-tight">
             rethink announcements board
           </span>
           <nav className="hidden md:flex gap-6 items-center">
-            <span className="text-xs font-semibold text-accent opacity-100">
+            <span className="text-lg font-semibold text-accent opacity-100">
               feed
             </span>
-            <Link to="/login" className="text-xs text-ink opacity-56 hover:opacity-100 transition-opacity">
+            <Link to="/login" className="text-lg text-ink opacity-56 hover:opacity-100 transition-opacity">
               admin
             </Link>
           </nav>
@@ -44,7 +43,7 @@ export default function PublicBoard() {
       </header>
 
       {/* Main Content */}
-      <main className="pt-20 pb-32 px-4 md:px-0">
+      <main className="pt-32 pb-32 px-4 md:px-0">
         <div className="max-w-[980px] mx-auto space-y-8">
           {/* Hero */}
           <section className="space-y-2 text-center md:text-left pt-4">
@@ -53,9 +52,6 @@ export default function PublicBoard() {
               Stay updated with the latest news, events, and important notices.
             </p>
           </section>
-
-          {/* Subscribe Box */}
-          <SubscribeBox />
 
           {/* Category Filter */}
           <CategoryFilter selected={category} onChange={setCategory} />

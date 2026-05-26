@@ -1,11 +1,8 @@
-import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetchAnnouncement, createAnnouncement, updateAnnouncement, sendAnnouncementEmails } from '../lib/queries/announcements'
-import { fetchActiveSubscriberCount } from '../lib/queries/subscribers'
+import { fetchAnnouncement, createAnnouncement, updateAnnouncement } from '../lib/queries/announcements'
 import { useAuth } from '../hooks/useAuth'
 import AnnouncementForm from '../components/AnnouncementForm'
-import PublishConfirmDialog from '../components/PublishConfirmDialog'
 import type { AnnouncementFormData } from '../components/AnnouncementForm'
 
 export default function AnnouncementEditor() {
@@ -15,25 +12,15 @@ export default function AnnouncementEditor() {
   const queryClient = useQueryClient()
   const { user } = useAuth()
 
-  // Pending publish state: saved announcement id + form data waiting for confirm
-  const [pendingPublishId, setPendingPublishId] = useState<string | null>(null)
-  const [showConfirm, setShowConfirm] = useState(false)
-
   const { data: existing, isLoading: loadingAnnouncement } = useQuery({
     queryKey: ['announcement', id],
     queryFn: () => fetchAnnouncement(id!),
     enabled: isEdit,
   })
 
-  const { data: subscriberCount = 0 } = useQuery({
-    queryKey: ['subscribers', 'count'],
-    queryFn: fetchActiveSubscriberCount,
-  })
-
   async function handleSubmit(data: AnnouncementFormData, publish: boolean) {
     if (isEdit && id) {
-      const wasAlreadyPublished = existing?.is_published ?? false
-      const updated = await updateAnnouncement(id, {
+      await updateAnnouncement(id, {
         title: data.title,
         body: data.body,
         category: data.category,
@@ -42,16 +29,9 @@ export default function AnnouncementEditor() {
       })
       queryClient.invalidateQueries({ queryKey: ['announcements'] })
       queryClient.invalidateQueries({ queryKey: ['announcement', id] })
-
-      // First time publishing with subscribers => show confirm for email
-      if (publish && !wasAlreadyPublished && subscriberCount > 0) {
-        setPendingPublishId(updated.id)
-        setShowConfirm(true)
-        return
-      }
       navigate('/admin')
     } else {
-      const created = await createAnnouncement({
+      await createAnnouncement({
         title: data.title,
         body: data.body,
         category: data.category,
@@ -60,29 +40,8 @@ export default function AnnouncementEditor() {
         created_by: user?.id ?? '',
       })
       queryClient.invalidateQueries({ queryKey: ['announcements'] })
-
-      // First time publishing with subscribers => show confirm for email
-      if (publish && subscriberCount > 0) {
-        setPendingPublishId(created.id)
-        setShowConfirm(true)
-        return
-      }
       navigate('/admin')
     }
-  }
-
-  async function handleConfirmSend() {
-    if (!pendingPublishId) return
-    await sendAnnouncementEmails(pendingPublishId)
-    await updateAnnouncement(pendingPublishId, { email_sent: true })
-    queryClient.invalidateQueries({ queryKey: ['announcements'] })
-    setShowConfirm(false)
-    navigate('/admin')
-  }
-
-  function handleCancelConfirm() {
-    setShowConfirm(false)
-    navigate('/admin')
   }
 
   if (isEdit && loadingAnnouncement) {
@@ -141,13 +100,6 @@ export default function AnnouncementEditor() {
         alreadyPublished={alreadyPublished}
       />
 
-      {showConfirm && (
-        <PublishConfirmDialog
-          subscriberCount={subscriberCount}
-          onConfirm={handleConfirmSend}
-          onCancel={handleCancelConfirm}
-        />
-      )}
     </div>
   )
 }

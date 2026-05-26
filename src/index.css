@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Sora:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@layer base {
+  body {
+    font-family: 'Sora', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FDFBF4;
+    color: #1F1A1D;
+    text-transform: lowercase;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    text-transform: none;
+  }
+}
+
+/* Paper grain texture overlay */
+.paper-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Washi tape decorative accent */
+.washi-tape {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  width: 50px;
+  height: 20px;
+  background: rgba(245, 201, 76, 0.4);
+  transform: rotate(3deg);
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Scrapbook card base */
+.scrapbook-card {
+  background: #ffffff;
+  border: 1px solid rgba(31, 26, 29, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px -2px rgba(31, 26, 29, 0.06);
+  position: relative;
+}
+
+/* Markdown body styling */
+.prose h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: #1F1A1D; }
+.prose h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: #1F1A1D; }
+.prose h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: #1F1A1D; }
+.prose p { margin-bottom: 0.75rem; color: #4A4548; line-height: 1.6; }
+.prose ul, .prose ol { margin-bottom: 0.75rem; padding-left: 1.5rem; color: #4A4548; }
+.prose li { margin-bottom: 0.25rem; }
+.prose a { color: #3244e6; text-decoration: underline; }
+.prose blockquote {
+  border-left: 3px solid #E8E6DE;
+  padding-left: 1rem;
+  margin-bottom: 0.75rem;
+  color: #4A4548;
+}
+.prose code {
+  background: #f0ede6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}

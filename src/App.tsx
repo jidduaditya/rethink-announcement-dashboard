@@ -1,15 +1,20 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="paper-grain" />
-      <div className="max-w-[720px] mx-auto px-[16px] pt-24">
-        <h1 className="text-display-lg-mobile font-bold text-charcoal italic tracking-tight">
-          rethink announcements board
-        </h1>
-        <p className="text-body-sm text-on-surface-variant mt-2">scaffold complete</p>
-      </div>
-    </div>
-  )
+import { Routes, Route } from 'react-router-dom'
+import PublicBoard from './pages/PublicBoard'
+
+function Placeholder({ name }: { name: string }) {
+  return <div className="min-h-screen bg-background p-8 pt-24 text-on-surface-variant">{name} -- coming soon</div>
 }
 
-export default App
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<PublicBoard />} />
+      <Route path="/login" element={<Placeholder name="login" />} />
+      <Route path="/admin" element={<Placeholder name="dashboard" />} />
+      <Route path="/admin/new" element={<Placeholder name="new announcement" />} />
+      <Route path="/admin/edit/:id" element={<Placeholder name="edit announcement" />} />
+      <Route path="/admin/subscribers" element={<Placeholder name="subscribers" />} />
+      <Route path="/unsubscribe" element={<Placeholder name="unsubscribe" />} />
+    </Routes>
+  )
+}

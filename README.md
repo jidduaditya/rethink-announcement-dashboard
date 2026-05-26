@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# Announcements Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple announcements board. Admin posts announcements; people view them on a public page and get email notifications.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React + Vite + TypeScript + Tailwind CSS
+- Supabase (Postgres + Auth + Edge Functions)
+- Resend for transactional email
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Environment variables
 
-## Expanding the ESLint configuration
+Copy `.env.example` to `.env` and fill in:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `VITE_SUPABASE_URL` -- your Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` -- your Supabase anon/public key
+- `VITE_APP_URL` -- your app URL (http://localhost:5173 for dev)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 2. Database
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Run the SQL in `supabase/migrations/001_initial_schema.sql` in your Supabase SQL Editor. This creates:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `announcements` table with RLS (public reads published, admin reads/writes all)
+- `subscribers` table with RLS (public can subscribe, admin manages)
+- `unsubscribe()` RPC function
+- Auto-updating `updated_at` trigger
+
+### 3. Create admin user
+
+In Supabase Dashboard > Authentication > Users > Add User. Enter email + password.
+
+### 4. Deploy Edge Function
+
+Set these secrets in Supabase Edge Function settings:
+
+- `RESEND_API_KEY` -- your Resend API key
+- `APP_URL` -- your deployed app URL
+- `FROM_EMAIL` -- your verified Resend sender address
+
+Deploy:
+
+```bash
+supabase functions deploy send-announcement-email --project-ref YOUR_REF
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 5. Configure Resend
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Sign up at resend.com
+- Add and verify your sending domain
+- Create an API key
+- Set the `FROM_EMAIL` to match your verified domain (e.g., `announcements@yourdomain.com`)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 6. Run locally
+
+```bash
+bun install
+bun run dev
 ```
+
+### 7. Deploy to Vercel
+
+```bash
+bunx vercel
+```
+
+Set the same env vars in Vercel project settings.
+
+## Routes
+
+| Path | Access | Description |
+|------|--------|-------------|
+| `/` | Public | Announcements board |
+| `/login` | Public | Admin login |
+| `/admin` | Auth | Announcement management |
+| `/admin/new` | Auth | Create announcement |
+| `/admin/edit/:id` | Auth | Edit announcement |
+| `/admin/subscribers` | Auth | Subscriber management |
+| `/unsubscribe?token=` | Public | Email unsubscribe |

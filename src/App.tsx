@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import PublicBoard from './pages/PublicBoard'
 import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import AnnouncementEditor from './pages/AnnouncementEditor'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminLayout from './components/AdminLayout'
 
@@ -28,9 +30,9 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Placeholder name="dashboard" />} />
-        <Route path="new" element={<Placeholder name="new announcement" />} />
-        <Route path="edit/:id" element={<Placeholder name="edit announcement" />} />
+        <Route index element={<Dashboard />} />
+        <Route path="new" element={<AnnouncementEditor />} />
+        <Route path="edit/:id" element={<AnnouncementEditor />} />
         <Route path="subscribers" element={<Placeholder name="subscribers" />} />
       </Route>
     </Routes>

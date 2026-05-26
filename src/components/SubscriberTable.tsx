@@ -28,16 +28,13 @@ export default function SubscriberTable({ subscribers, onToggleActive, onDelete 
 
   return (
     <div className="flex flex-col gap-3">
-      {subscribers.map((s, i) => (
-        <div key={s.id} className="scrapbook-card p-5 flex items-center justify-between gap-3">
-          {/* Washi tape on every 3rd card (0-indexed: 2, 5, 8…) */}
-          {(i + 1) % 3 === 0 && <div className="washi-tape" />}
-
+      {subscribers.map((s) => (
+        <div key={s.id} className="bg-bg-elevated border border-border rounded-card px-5 py-4 flex items-center justify-between gap-3">
           {/* Left: icon + info */}
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-full bg-surface text-ink-muted flex items-center justify-center shrink-0">
               <span
-                className="material-symbols-outlined text-on-surface-variant text-[20px]"
+                className="material-symbols-outlined text-[20px]"
                 style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24" }}
               >
                 alternate_email
@@ -46,18 +43,18 @@ export default function SubscriberTable({ subscribers, onToggleActive, onDelete 
 
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-label-md font-semibold text-on-surface truncate">{s.email}</p>
+                <p className="text-body-sm font-semibold text-ink truncate">{s.email}</p>
                 {s.is_active ? (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide bg-success-bg text-success shrink-0">
+                  <span className="bg-success-soft text-success text-micro uppercase rounded-pill px-2.5 py-0.5 shrink-0">
                     active
                   </span>
                 ) : (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide bg-surface-container text-on-surface-variant shrink-0">
+                  <span className="bg-surface text-ink-subtle text-micro uppercase rounded-pill px-2.5 py-0.5 shrink-0">
                     inactive
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-on-surface-variant/50 mt-0.5">added {timeAgo(s.created_at)}</p>
+              <p className="text-caption text-ink-muted mt-0.5">added {timeAgo(s.created_at)}</p>
             </div>
           </div>
 
@@ -65,24 +62,19 @@ export default function SubscriberTable({ subscribers, onToggleActive, onDelete 
           <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={() => onToggleActive(s.id, !s.is_active)}
-              className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-variant transition-colors"
+              className="text-caption text-accent hover:underline"
               title={s.is_active ? 'deactivate' : 'activate'}
             >
-              <span
-                className="material-symbols-outlined text-on-surface-variant text-[16px]"
-                style={{ fontVariationSettings: `'FILL' ${s.is_active ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 20` }}
-              >
-                {s.is_active ? 'toggle_on' : 'toggle_off'}
-              </span>
+              {s.is_active ? 'deactivate' : 'activate'}
             </button>
 
             <button
               onClick={() => handleDelete(s.id, s.email)}
-              className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-danger-bg transition-colors group"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-ink-subtle hover:text-danger transition-colors"
               title="remove subscriber"
             >
               <span
-                className="material-symbols-outlined text-charcoal/30 group-hover:text-danger text-[16px] transition-colors"
+                className="material-symbols-outlined text-[16px]"
                 style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
               >
                 close

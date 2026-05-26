@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 function getInitials(email: string | undefined): string {
@@ -19,96 +19,68 @@ export default function AdminLayout() {
 
   const initials = getInitials(user?.email)
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `relative flex flex-col items-center gap-0.5 pt-3 pb-2 px-5 transition-colors ${
-      isActive ? 'text-on-surface' : 'text-on-surface-variant/60'
-    }`
-
   return (
-    <div className="min-h-screen bg-background">
-      <div className="paper-grain" />
+    <div className="min-h-screen bg-bg">
+      {/* Top nav */}
+      <header className="fixed top-0 left-0 right-0 h-12 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border z-50 flex items-center justify-between px-6">
+        {/* Left: wordmark + nav links */}
+        <div className="flex items-center">
+          <span className="text-xs font-semibold text-ink mr-6">
+            rethink announcements board
+          </span>
 
-      {/* Top bar */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-sm border-b border-charcoal-border z-50 flex items-center justify-between px-gutter-mobile">
-        <Link to="/admin" className="font-bold italic tracking-tight text-on-surface text-body-lg">
-          rethink announcements board
-        </Link>
+          <nav className="flex items-center">
+            <NavLink
+              to="/admin"
+              end
+              className={({ isActive }) =>
+                `text-xs px-3 h-12 flex items-center transition-all ${
+                  isActive ? 'opacity-100 font-semibold text-accent' : 'text-ink opacity-56 hover:opacity-100'
+                }`
+              }
+            >
+              Announcements
+            </NavLink>
 
-        <button
-          onClick={handleLogout}
-          title="sign out"
-          className="w-9 h-9 rounded-full bg-charcoal text-ivory flex items-center justify-center text-label-sm font-semibold uppercase hover:opacity-80 transition-opacity"
-        >
+            <NavLink
+              to="/admin/subscribers"
+              className={({ isActive }) =>
+                `text-xs px-3 h-12 flex items-center transition-all ${
+                  isActive ? 'opacity-100 font-semibold text-accent' : 'text-ink opacity-56 hover:opacity-100'
+                }`
+              }
+            >
+              Subscribers
+            </NavLink>
+
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-ink opacity-56 hover:opacity-100 px-3 h-12 flex items-center transition-all"
+            >
+              View Board
+            </a>
+
+            <button
+              onClick={handleLogout}
+              className="text-xs text-ink opacity-56 hover:opacity-100 px-3 h-12 flex items-center transition-all"
+            >
+              Sign out
+            </button>
+          </nav>
+        </div>
+
+        {/* Right: user initials */}
+        <div className="w-8 h-8 rounded-full bg-surface text-ink-muted text-label flex items-center justify-center font-medium select-none">
           {initials}
-        </button>
+        </div>
       </header>
 
       {/* Main content */}
-      <main className="pt-24 pb-32 px-gutter-mobile max-w-[720px] mx-auto">
+      <main className="max-w-[980px] mx-auto px-12 pt-16 pb-12">
         <Outlet />
       </main>
-
-      {/* FAB */}
-      <Link
-        to="/admin/new"
-        className="fixed bottom-24 right-6 w-14 h-14 bg-charcoal text-ivory rounded-lg shadow-scrapbook-lg flex items-center justify-center hover:opacity-90 active:scale-95 transition-all z-50"
-        aria-label="new announcement"
-      >
-        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24" }}>
-          add
-        </span>
-      </Link>
-
-      {/* Bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 h-20 bg-background/95 backdrop-blur-md border-t border-charcoal-border z-50 flex items-stretch justify-around">
-        <NavLink to="/admin" end className={navLinkClass}>
-          {({ isActive }) => (
-            <>
-              {isActive && (
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-marigold rounded-full" />
-              )}
-              <span
-                className="material-symbols-outlined text-2xl"
-                style={{ fontVariationSettings: `'FILL' ${isActive ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24` }}
-              >
-                dashboard
-              </span>
-              <span className="text-label-sm">feed</span>
-            </>
-          )}
-        </NavLink>
-
-        <NavLink to="/admin/subscribers" className={navLinkClass}>
-          {({ isActive }) => (
-            <>
-              {isActive && (
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-marigold rounded-full" />
-              )}
-              <span
-                className="material-symbols-outlined text-2xl"
-                style={{ fontVariationSettings: `'FILL' ${isActive ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24` }}
-              >
-                group
-              </span>
-              <span className="text-label-sm">subscribers</span>
-            </>
-          )}
-        </NavLink>
-
-        <button
-          className="relative flex flex-col items-center gap-0.5 pt-3 pb-2 px-5 text-on-surface-variant/60 transition-colors"
-          onClick={handleLogout}
-          title="sign out"
-        >
-          <span
-            className="material-symbols-outlined text-2xl"
-            style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24" }}
-          >
-            logout
-          </span>
-          <span className="text-label-sm">sign out</span>
-        </button>
-      </nav>
     </div>
   )
 }

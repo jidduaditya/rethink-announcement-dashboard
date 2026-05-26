@@ -19,30 +19,26 @@ export default function Login() {
       await login(email, password)
       navigate('/admin')
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'invalid credentials')
+      setError(err instanceof Error ? err.message : 'Invalid credentials')
     } finally {
       setSubmitting(false)
     }
   }
 
   return (
-    <div className="relative min-h-screen bg-background flex items-center justify-center px-gutter-mobile">
-      <div className="paper-grain" />
-
+    <div className="relative min-h-screen bg-bg flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Card */}
-        <div className="scrapbook-card p-8 relative">
-          <div className="washi-tape" />
-
-          <h1 className="text-headline-md text-on-surface font-bold mb-1">admin login</h1>
-          <p className="text-body-sm text-on-surface-variant mb-8">
-            sign in to manage your announcements
+        <div className="bg-bg-elevated border border-border rounded-card p-8">
+          <h1 className="text-title font-semibold text-ink mb-1">Admin Login</h1>
+          <p className="text-body-sm text-ink-muted mb-8">
+            Sign in to manage your announcements
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label className="text-label-sm text-on-surface-variant" htmlFor="email">
-                email
+              <label className="text-caption text-ink-muted" htmlFor="email">
+                Email
               </label>
               <input
                 id="email"
@@ -51,14 +47,14 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-14 px-4 w-full bg-transparent border-2 border-on-surface/10 rounded-card text-body-lg text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-marigold transition-colors"
+                className="h-12 px-4 w-full bg-bg border border-border rounded-input text-body text-ink placeholder:text-ink-subtle focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all"
                 placeholder="you@example.com"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-label-sm text-on-surface-variant" htmlFor="password">
-                password
+              <label className="text-caption text-ink-muted" htmlFor="password">
+                Password
               </label>
               <input
                 id="password"
@@ -67,7 +63,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-14 px-4 w-full bg-transparent border-2 border-on-surface/10 rounded-card text-body-lg text-on-surface placeholder:text-on-surface-variant/40 focus:outline-none focus:border-marigold transition-colors"
+                className="h-12 px-4 w-full bg-bg border border-border rounded-input text-body text-ink placeholder:text-ink-subtle focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all"
                 placeholder="••••••••"
               />
             </div>
@@ -79,9 +75,9 @@ export default function Login() {
             <button
               type="submit"
               disabled={submitting}
-              className="h-14 w-full mt-2 bg-charcoal text-ivory font-semibold text-label-md rounded-button active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-12 w-full mt-2 bg-accent text-white font-semibold text-body-sm rounded-pill active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
             >
-              {submitting ? 'signing in...' : 'sign in'}
+              {submitting ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
         </div>

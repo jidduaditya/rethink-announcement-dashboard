@@ -88,10 +88,10 @@ export default function AnnouncementEditor() {
   if (isEdit && loadingAnnouncement) {
     return (
       <div className="flex flex-col gap-6 animate-pulse">
-        <div className="h-8 w-40 rounded-card bg-surface-container" />
-        <div className="h-14 rounded-card bg-surface-container" />
-        <div className="h-14 rounded-card bg-surface-container" />
-        <div className="h-48 rounded-card bg-surface-container" />
+        <div className="h-8 w-40 rounded-DEFAULT bg-surface" />
+        <div className="h-12 rounded-DEFAULT bg-surface" />
+        <div className="h-12 rounded-DEFAULT bg-surface" />
+        <div className="h-48 rounded-DEFAULT bg-surface" />
       </div>
     )
   }
@@ -104,22 +104,22 @@ export default function AnnouncementEditor() {
       <div className="flex items-center gap-3 mb-6">
         <Link
           to="/admin"
-          className="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-variant transition-colors"
+          className="w-9 h-9 rounded-full bg-surface hover:bg-surface-hover flex items-center justify-center transition-colors"
           aria-label="back"
         >
           <span
-            className="material-symbols-outlined text-on-surface-variant text-[20px]"
+            className="material-symbols-outlined text-ink-muted text-[20px]"
             style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
           >
             arrow_back
           </span>
         </Link>
         <div>
-          <h1 className="text-headline-sm font-bold text-on-surface">
+          <h1 className="text-title font-bold text-ink">
             {isEdit ? 'edit announcement' : 'new announcement'}
           </h1>
           {alreadyPublished && (
-            <p className="text-[11px] text-on-surface-variant/60">already published</p>
+            <p className="text-caption text-ink-subtle">already published</p>
           )}
         </div>
       </div>

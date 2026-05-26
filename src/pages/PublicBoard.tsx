@@ -24,21 +24,18 @@ export default function PublicBoard() {
   const rest = filtered.slice(1)
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="paper-grain" />
-
+    <div className="min-h-screen bg-bg">
       {/* Top Nav */}
-      <header className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-charcoal/12 h-16">
-        <div className="flex justify-between items-center px-[16px] md:px-[24px] h-16 max-w-[800px] mx-auto">
-          <span className="font-bold text-xl md:text-2xl italic tracking-tighter text-charcoal">
+      <header className="fixed top-0 w-full z-50 bg-white/72 backdrop-blur-xl saturate-[180%] border-b border-border h-12">
+        <div className="flex justify-between items-center px-4 md:px-6 h-12 max-w-[980px] mx-auto">
+          <span className="font-semibold text-base text-ink tracking-tight">
             rethink announcements board
           </span>
-          <nav className="hidden md:flex gap-8 items-center">
-            <span className="font-semibold text-charcoal text-sm relative">
+          <nav className="hidden md:flex gap-6 items-center">
+            <span className="text-xs font-semibold text-accent opacity-100">
               feed
-              <div className="absolute -bottom-1 left-0 w-full h-1 bg-marigold rounded-full" />
             </span>
-            <Link to="/login" className="text-on-surface-variant hover:text-charcoal transition-colors text-sm">
+            <Link to="/login" className="text-xs text-ink opacity-56 hover:opacity-100 transition-opacity">
               admin
             </Link>
           </nav>
@@ -47,13 +44,13 @@ export default function PublicBoard() {
       </header>
 
       {/* Main Content */}
-      <main className="pt-24 pb-32 px-[16px] md:px-0">
-        <div className="max-w-[800px] mx-auto space-y-8">
+      <main className="pt-20 pb-32 px-4 md:px-0">
+        <div className="max-w-[980px] mx-auto space-y-8">
           {/* Hero */}
-          <section className="space-y-2 text-center md:text-left">
-            <h1 className="text-3xl md:text-4xl font-bold text-charcoal tracking-tight">community board</h1>
-            <p className="text-base md:text-lg text-on-surface-variant max-w-[600px]">
-              stay updated with the latest news, events, and important notices.
+          <section className="space-y-2 text-center md:text-left pt-4">
+            <h1 className="text-title-lg font-semibold text-ink tracking-tight">Community Board</h1>
+            <p className="text-body text-ink-muted max-w-[600px]">
+              Stay updated with the latest news, events, and important notices.
             </p>
           </section>
 
@@ -66,19 +63,19 @@ export default function PublicBoard() {
           {/* Announcements */}
           <div className="space-y-4">
             {isLoading && (
-              <div className="py-20 text-center text-on-surface-variant text-sm">loading...</div>
+              <div className="py-20 text-center text-ink-muted text-body-sm">Loading...</div>
             )}
 
             {error && (
-              <div className="py-20 text-center text-danger text-sm">
-                failed to load announcements.
+              <div className="py-20 text-center text-danger text-body-sm">
+                Failed to load announcements.
               </div>
             )}
 
             {!isLoading && !error && filtered.length === 0 && (
               <EmptyState
-                title="no announcements yet"
-                description={category === 'All' ? 'check back soon.' : `no ${category.toLowerCase()} announcements right now.`}
+                title="No announcements yet"
+                description={category === 'All' ? 'Check back soon.' : `No ${category.toLowerCase()} announcements right now.`}
               />
             )}
 
@@ -96,23 +93,23 @@ export default function PublicBoard() {
       </main>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 w-full z-50 bg-background/90 backdrop-blur-md border-t border-charcoal/5 h-20">
-        <div className="flex justify-around items-center h-20 px-4 max-w-[720px] mx-auto">
+      <nav className="md:hidden fixed bottom-0 w-full z-50 bg-white/90 backdrop-blur-xl border-t border-border h-20">
+        <div className="flex justify-around items-center h-20 px-4 max-w-[980px] mx-auto">
           <span className="flex flex-col items-center justify-center gap-1">
-            <div className="bg-marigold text-charcoal rounded-full px-5 py-1.5">
+            <div className="bg-accent text-white rounded-full px-5 py-1.5">
               <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>dashboard</span>
             </div>
-            <span className="text-[10px] font-bold text-charcoal">feed</span>
+            <span className="text-[10px] font-semibold text-ink">feed</span>
           </span>
-          <Link to="/login" className="flex flex-col items-center justify-center gap-1 text-on-surface-variant/40">
+          <Link to="/login" className="flex flex-col items-center justify-center gap-1 text-ink-subtle">
             <span className="material-symbols-outlined text-xl">settings</span>
-            <span className="text-[10px] font-bold">admin</span>
+            <span className="text-[10px] font-semibold">admin</span>
           </Link>
         </div>
       </nav>
 
       {/* Footer (desktop) */}
-      <footer className="hidden md:block text-center py-6 text-xs text-on-surface-variant">
+      <footer className="hidden md:block text-center py-6 text-caption text-ink-subtle">
         rethink announcements board
       </footer>
     </div>

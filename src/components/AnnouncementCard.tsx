@@ -13,30 +13,29 @@ export default function AnnouncementCard({ announcement, featured }: Props) {
 
   if (featured) {
     return (
-      <article className="scrapbook-card p-6 md:p-8 relative overflow-visible group">
-        <div className="washi-tape" />
+      <article className="bg-bg-elevated border border-border rounded-card p-6 md:p-8 relative overflow-hidden group">
         {announcement.is_pinned && (
-          <div className="absolute top-6 right-6 flex items-center gap-1 text-marigold">
+          <div className="absolute top-6 right-6 flex items-center gap-1 text-accent">
             <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>push_pin</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider">pinned</span>
+            <span className="text-micro font-semibold uppercase tracking-wider">pinned</span>
           </div>
         )}
         <div className="pr-20 space-y-3">
-          <span className="text-[10px] font-bold text-marigold tracking-widest uppercase">{announcement.category}</span>
-          <h2 className="text-xl md:text-2xl font-bold text-charcoal leading-tight">{announcement.title}</h2>
-          <div className="prose text-sm">
+          <span className="text-micro font-semibold text-accent tracking-widest uppercase">{announcement.category}</span>
+          <h2 className="text-title-sm font-semibold text-ink leading-tight">{announcement.title}</h2>
+          <div className="prose text-body-sm text-ink-muted">
             <ReactMarkdown>{announcement.body}</ReactMarkdown>
           </div>
-          <div className="flex items-center gap-6 pt-3 border-t border-charcoal/5">
+          <div className="flex items-center gap-6 pt-3 border-t border-border">
             {date && (
               <div className="flex items-center gap-1">
-                <span className="material-symbols-outlined text-on-surface-variant text-lg">calendar_today</span>
-                <span className="text-xs text-on-surface-variant">{date}</span>
+                <span className="material-symbols-outlined text-ink-subtle text-lg">calendar_today</span>
+                <span className="text-caption text-ink-muted">{date}</span>
               </div>
             )}
             <div className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-on-surface-variant text-lg">category</span>
-              <span className="text-xs text-on-surface-variant">{announcement.category}</span>
+              <span className="material-symbols-outlined text-ink-subtle text-lg">category</span>
+              <span className="text-caption text-ink-muted">{announcement.category}</span>
             </div>
           </div>
         </div>
@@ -45,14 +44,14 @@ export default function AnnouncementCard({ announcement, featured }: Props) {
   }
 
   return (
-    <article className="scrapbook-card p-4 transition-all hover:border-marigold cursor-pointer flex items-center justify-between">
+    <article className="bg-bg-elevated border border-border rounded-card p-4 transition-all hover:border-border-light cursor-pointer flex items-center justify-between">
       <div className="flex items-center gap-4 min-w-0">
-        <span className="px-2 py-0.5 bg-surface-variant rounded-md text-[10px] font-bold text-charcoal shrink-0">
+        <span className="px-2 py-0.5 bg-surface rounded-DEFAULT text-micro font-semibold text-accent shrink-0">
           {announcement.category}
         </span>
-        <h2 className="text-base font-bold text-charcoal truncate">{announcement.title}</h2>
+        <h2 className="text-body font-semibold text-ink truncate">{announcement.title}</h2>
       </div>
-      {date && <span className="text-[10px] text-on-surface-variant whitespace-nowrap ml-4">{date}</span>}
+      {date && <span className="text-caption text-ink-muted whitespace-nowrap ml-4">{date}</span>}
     </article>
   )
 }

@@ -18,9 +18,9 @@ interface Props {
   alreadyPublished?: boolean
 }
 
-const labelClass = 'block text-xs font-semibold uppercase tracking-wider text-on-surface-variant/70 mb-2'
+const labelClass = 'block text-micro uppercase tracking-wide text-ink-muted mb-2'
 const inputClass =
-  'w-full h-14 px-4 border-2 border-on-surface/10 rounded-card bg-white text-on-surface text-body-sm focus:border-marigold focus:ring-0 transition-all outline-none placeholder:text-on-surface-variant/40'
+  'w-full h-12 px-4 bg-bg border border-border rounded-input text-body text-ink focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none placeholder:text-ink-subtle transition-all'
 
 export default function AnnouncementForm({ initial, onSubmit, isEdit = false, alreadyPublished = false }: Props) {
   const [title, setTitle] = useState(initial?.title ?? '')
@@ -89,7 +89,7 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
           <button
             type="button"
             onClick={() => setPreview(!preview)}
-            className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant/60 hover:text-on-surface transition-colors flex items-center gap-1"
+            className="text-caption text-accent hover:underline flex items-center gap-1"
           >
             <span
               className="material-symbols-outlined text-[14px]"
@@ -102,8 +102,8 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
         </div>
 
         {preview ? (
-          <div className="min-h-[200px] px-4 py-4 border-2 border-on-surface/10 rounded-card bg-white prose text-body-sm">
-            {body ? <ReactMarkdown>{body}</ReactMarkdown> : <p className="text-on-surface-variant/40">nothing to preview</p>}
+          <div className="min-h-[200px] px-4 py-4 border border-border rounded-input bg-bg prose text-body">
+            {body ? <ReactMarkdown>{body}</ReactMarkdown> : <p className="text-ink-subtle">nothing to preview</p>}
           </div>
         ) : (
           <textarea
@@ -111,26 +111,25 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
             onChange={(e) => setBody(e.target.value)}
             placeholder="write your announcement... markdown is supported"
             rows={8}
-            className="w-full min-h-[200px] px-4 py-4 border-2 border-on-surface/10 rounded-card bg-white text-on-surface text-body-sm focus:border-marigold focus:ring-0 transition-all outline-none resize-y placeholder:text-on-surface-variant/40"
+            className="w-full min-h-[200px] px-4 py-4 border border-border rounded-input bg-bg text-ink text-body focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none resize-y placeholder:text-ink-subtle transition-all"
           />
         )}
-        <p className="mt-1.5 text-[11px] text-on-surface-variant/50">markdown supported</p>
+        <p className="mt-1.5 text-caption text-ink-subtle">markdown supported</p>
       </div>
 
       {/* Pin toggle */}
-      <div className="scrapbook-card relative px-4 py-4">
-        <div className="washi-tape" />
+      <div className="bg-bg-elevated border border-border rounded-card p-5">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span
-              className={`material-symbols-outlined text-[20px] ${isPinned ? 'text-marigold' : 'text-on-surface-variant/40'}`}
+              className={`material-symbols-outlined text-[20px] ${isPinned ? 'text-accent' : 'text-ink-subtle'}`}
               style={{ fontVariationSettings: `'FILL' ${isPinned ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 20` }}
             >
               push_pin
             </span>
             <div>
-              <p className="text-label-md font-semibold text-on-surface">pin to top</p>
-              <p className="text-[11px] text-on-surface-variant/60">always shows above other posts</p>
+              <p className="text-body-sm font-semibold text-ink">pin to top</p>
+              <p className="text-caption text-ink-subtle">always shows above other posts</p>
             </div>
           </div>
 
@@ -141,7 +140,7 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
             aria-checked={isPinned}
             onClick={() => setIsPinned(!isPinned)}
             className={`relative w-12 h-6 rounded-full transition-colors focus:outline-none ${
-              isPinned ? 'bg-marigold' : 'bg-surface-container border-2 border-on-surface/10'
+              isPinned ? 'bg-accent' : 'bg-surface border border-border'
             }`}
           >
             <span
@@ -155,20 +154,20 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
 
       {/* Error */}
       {error && (
-        <div className="px-4 py-3 rounded-card bg-danger-bg border border-danger/20">
+        <div className="px-4 py-3 rounded-card bg-danger-soft border border-danger/20">
           <p className="text-body-sm text-danger">{error}</p>
         </div>
       )}
 
       {/* Sticky action bar */}
-      <div className="fixed bottom-20 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-t border-charcoal-border px-gutter-mobile py-3">
-        <div className="max-w-[720px] mx-auto flex gap-3">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/72 backdrop-blur-xl border-t border-border px-6 py-3">
+        <div className="max-w-[980px] mx-auto flex gap-3">
           {alreadyPublished ? (
             <button
               type="button"
               onClick={() => handleSubmit(true)}
               disabled={submitting}
-              className="flex-1 h-14 rounded-button bg-charcoal text-ivory font-bold text-label-md hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="flex-1 h-12 rounded-pill bg-accent text-white text-body-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {submitting ? 'saving...' : 'save changes'}
             </button>
@@ -178,7 +177,7 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
                 type="button"
                 onClick={() => handleSubmit(false)}
                 disabled={submitting}
-                className="flex-1 h-14 rounded-button border-2 border-charcoal text-on-surface font-bold text-label-md hover:bg-surface-container transition-colors disabled:opacity-40"
+                className="flex-1 h-12 rounded-pill border border-border text-ink text-body-sm font-semibold hover:bg-surface transition-colors disabled:opacity-40"
               >
                 {submitting ? 'saving...' : isEdit ? 'save draft' : 'save as draft'}
               </button>
@@ -186,7 +185,7 @@ export default function AnnouncementForm({ initial, onSubmit, isEdit = false, al
                 type="button"
                 onClick={() => handleSubmit(true)}
                 disabled={submitting}
-                className="flex-1 h-14 rounded-button bg-charcoal text-ivory font-bold text-label-md hover:opacity-90 transition-opacity disabled:opacity-60"
+                className="flex-1 h-12 rounded-pill bg-accent text-white text-body-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
               >
                 {submitting ? 'publishing...' : 'publish'}
               </button>

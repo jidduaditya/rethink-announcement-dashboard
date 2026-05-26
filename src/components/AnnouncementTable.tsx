@@ -22,29 +22,29 @@ export default function AnnouncementTable({ announcements, onDelete, deleting }:
   return (
     <div className="flex flex-col gap-3">
       {announcements.map((a) => (
-        <div key={a.id} className="scrapbook-card px-4 py-4">
+        <div key={a.id} className="bg-bg-elevated border border-border rounded-card p-5">
           {/* Top row: badges + actions */}
           <div className="flex items-center justify-between gap-2 mb-2">
             <div className="flex items-center gap-1.5 flex-wrap">
               {/* Status badge */}
               {a.is_published ? (
-                <span className="bg-success-bg text-success text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                <span className="bg-success-soft text-success text-micro uppercase rounded-pill px-2.5 py-0.5 font-semibold tracking-wide">
                   published
                 </span>
               ) : (
-                <span className="bg-surface-container text-on-surface-variant text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wide">
+                <span className="bg-surface text-ink-subtle text-micro uppercase rounded-pill px-2.5 py-0.5 font-semibold tracking-wide">
                   draft
                 </span>
               )}
 
               {/* Category */}
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-on-surface-variant/60 px-2 py-0.5 rounded-sm bg-surface-container">
+              <span className="text-micro font-semibold uppercase tracking-wide text-ink-subtle px-2.5 py-0.5 rounded-pill bg-surface">
                 {a.category}
               </span>
 
               {/* Email sent indicator */}
               {a.email_sent && (
-                <span className="flex items-center gap-0.5 text-[10px] font-semibold uppercase tracking-wide text-success/80">
+                <span className="flex items-center gap-0.5 text-micro font-semibold uppercase tracking-wide text-success">
                   <span
                     className="material-symbols-outlined text-[12px]"
                     style={{ fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
@@ -57,10 +57,10 @@ export default function AnnouncementTable({ announcements, onDelete, deleting }:
             </div>
 
             {/* Pinned icon + actions */}
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               {a.is_pinned && (
                 <span
-                  className="material-symbols-outlined text-marigold text-[18px]"
+                  className="material-symbols-outlined text-accent text-[18px]"
                   style={{ fontVariationSettings: "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
                   title="pinned"
                 >
@@ -70,42 +70,32 @@ export default function AnnouncementTable({ announcements, onDelete, deleting }:
 
               <Link
                 to={`/admin/edit/${a.id}`}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-surface-variant transition-colors"
+                className="text-caption text-accent hover:underline"
                 title="edit"
               >
-                <span
-                  className="material-symbols-outlined text-on-surface-variant text-[16px]"
-                  style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
-                >
-                  edit
-                </span>
+                Edit
               </Link>
 
               <button
                 onClick={() => handleDelete(a.id, a.title)}
                 disabled={deleting === a.id}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container hover:bg-danger-bg transition-colors disabled:opacity-40"
+                className="text-caption text-danger hover:underline disabled:opacity-40"
                 title="delete"
               >
                 {deleting === a.id ? (
-                  <span className="w-3 h-3 border border-danger border-t-transparent rounded-full animate-spin" />
+                  <span className="w-3 h-3 border border-danger border-t-transparent rounded-full animate-spin inline-block" />
                 ) : (
-                  <span
-                    className="material-symbols-outlined text-on-surface-variant hover:text-danger text-[16px] transition-colors"
-                    style={{ fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20" }}
-                  >
-                    delete
-                  </span>
+                  'Delete'
                 )}
               </button>
             </div>
           </div>
 
           {/* Title */}
-          <p className="text-label-md font-semibold text-on-surface truncate mb-1">{a.title}</p>
+          <p className="text-body-sm font-semibold text-ink truncate mb-1">{a.title}</p>
 
           {/* Date */}
-          <p className="text-[11px] text-on-surface-variant/60">
+          <p className="text-caption text-ink-subtle">
             {a.is_published ? `published ${formatDate(a.published_at)}` : `created ${formatDate(a.created_at)}`}
           </p>
         </div>

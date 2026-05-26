@@ -10,8 +10,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <span className="text-body-sm text-on-surface-variant">loading...</span>
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <span className="text-body-sm text-ink-muted">Loading...</span>
       </div>
     )
   }
